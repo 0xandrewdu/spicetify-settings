@@ -14,3 +14,10 @@ To get the pixelated color filter effect on all playlist/album art, move `pixela
 The colors can be changed by modifying `color1` and `color2` in `pixelated-duotone.js`.
 
 To change the theme's colors, turn on the "Theme developer tools" in marketplace settings, and you should see a paintbrush icon appear that lets you add/change the color mappings for different color palettes in the current theme.
+
+### Screenshots
+
+<div align="center" style="margin-bottom: 2em;">
+  <img src="img/demo-home" alt="Homepage" width="600"/>
+  <div style="font-size: 0.9em; margin-top: 0.5em;">Homepage</div>
+</div>
