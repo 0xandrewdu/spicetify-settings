@@ -18,6 +18,16 @@ To change the theme's colors, turn on the "Theme developer tools" in marketplace
 ### Screenshots
 
 <div align="center" style="margin-bottom: 2em;">
-  <img src="img/demo-home.png" alt="Homepage" width="600"/>
+  <img src="img/demo-home.png" alt="Homepage" width="1000"/>
   <div style="font-size: 0.9em; margin-top: 0.5em;">Homepage</div>
+</div>
+
+<div align="center" style="margin-bottom: 2em;">
+  <img src="img/demo-profile.png" alt="Profile" width="1000"/>
+  <div style="font-size: 0.9em; margin-top: 0.5em;">Profile</div>
+</div>
+
+<div align="center" style="margin-bottom: 2em;">
+  <img src="img/demo-playlist.png" alt="Playlist" width="1000"/>
+  <div style="font-size: 0.9em; margin-top: 0.5em;">Playlist</div>
 </div>
