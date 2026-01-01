@@ -277,7 +277,7 @@
                 }("Bottom (Player)" === i ? ".main-nowPlayingBar-right" : '[data-testid="NPV_Panel_OpenDiv"]'), r = document.getElementById("catjam-webm");
             r && r.remove();
             let t = String(f.getFieldValue("catjam-webm-link"));
-            t = t || "https://media.discordapp.net/attachments/1441383421375942676/1456389646907871362/rainbowpls-filter-3px.webm?ex=6958300e&is=6956de8e&hm=04f9b35d434cab152410be9a259ea3916b0685dc63809b1ccbc488813fedbb92";
+            t = t || "https://media.discordapp.net/attachments/1441383421375942676/1456389678298038334/rainbowpls-filter-extrablue-3px.webm?ex=69583015&is=6956de95&hm=eda23126e9703790e65c6179b974ec5dd2a470e483e741c2c2eb35d0227198dd";
             var s = document.createElement("video");
             s.setAttribute("loop", "true");
             s.setAttribute("autoplay", "true");
