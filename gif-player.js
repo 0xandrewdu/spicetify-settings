@@ -1,3 +1,21 @@
+const catJamPresets = [
+    {
+        label: "parrotdance",
+        url: "https://github.com/0xandrewdu/spicetify-settings/raw/refs/heads/main/img/parrotdance-filter-blue-6px.webm",
+        bpm: 120
+    },
+    {
+        label: "rainbowpls",
+        url: "https://github.com/0xandrewdu/spicetify-settings/raw/refs/heads/main/img/rainbowpls-filter-3px.webm",
+        bpm: 200
+    },
+    {
+        label: "rainbowpls-extrablue",
+        url: "https://github.com/0xandrewdu/spicetify-settings/raw/refs/heads/main/img/rainbowpls-filter-extrablue-3px.webm",
+        bpm: 200
+    }
+];
+
 !async function () {
     for (; !Spicetify.React || !Spicetify.ReactDOM;) await new Promise(e => setTimeout(e, 10));
     var l, s, d, c, u, m, p, e, t, a, r, i, f, n;
@@ -84,17 +102,24 @@
                         ...n
                     }
                 }
-            }, this.addDropDown = (e, t, a, i, n, o) => {
+            }, this.addDropDown = (e, t, a, i, onSelect, extra) => {
                 this.settingsFields[e] = {
                     type: "dropdown",
                     description: t,
                     defaultValue: a[i],
                     options: a,
                     events: {
-                        onSelect: n,
-                        ...o
+                        onChange: async (event) => {
+                            // update the value internally
+                            const selected = a[event.currentTarget.selectedIndex];
+                            this.setFieldValue(e, selected);
+                            
+                            // call your onSelect if provided
+                            if (onSelect) await onSelect(event);
+                        },
+                        ...extra
                     }
-                }
+                };
             }, this.getFieldValue = e => JSON.parse(Spicetify.LocalStorage.get(this.settingsId + "." + e) || "{}")?.value, this.setFieldValue = (e, t) => {
                 Spicetify.LocalStorage.set(this.settingsId + "." + e, JSON.stringify({
                     value: t
@@ -189,6 +214,29 @@
             f.addDropDown("catjam-webm-bpm-method", "Method to calculate better BPM for slower songs", ["Track BPM", "Danceability, Energy and Track BPM"], 0), 
             f.addDropDown("catjam-webm-bpm-method-faster-songs", "Method to calculate better BPM for faster songs", ["Track BPM", "Danceability, Energy and Track BPM"], 0), 
             f.addInput("catjam-webm-position-left-size", "Size of webM video on the right (Only works for now playing position, Default: 100)", ""), 
+            f.addDropDown(
+                "catjam-preset",
+                "Select Cat Jam preset",
+                catJamPresets.map(p => p.label), // options are the preset labels
+                0,                              // default index
+                async (e) => {
+                    // onSelect handler: update video based on preset
+                    const preset = catJamPresets[e.currentTarget.selectedIndex];
+                    if (preset) {
+                        // Save selected preset in local storage
+                        Spicetify.LocalStorage.set("catjam-selected-preset", JSON.stringify(preset));
+
+                        // Update the fields
+                        f.setFieldValue("catjam-webm-link", preset.url);
+                        f.setFieldValue("catjam-webm-bpm", preset.bpm);
+                        f.setFieldValue("catjam-webm-position", preset.position);
+
+                        // Reload video
+                        await h();
+                        console.log("[CAT-JAM] Preset changed:", preset.label);
+                    }
+                }
+            ),
             f.addButton(
                 "catjam-toggle",                 // internal ID
                 "Enable/Disable Cat Jam",        // description
@@ -263,7 +311,7 @@
         try {
             let e = Number(f.getFieldValue("catjam-webm-position-left-size"));
             e = e || 100;
-            var a = `position: absolute;  bottom: 0px;  right: 50px;  width: 280px;  height: auto;  pointer-events: none;  z-index: 10;`,
+            var a = `position: absolute;  bottom: 0px;  left: 50%;  transform: translateX(-50%);  width: 280px;  height: auto;  pointer-events: none;  z-index: 10;`,
                 i = f.getFieldValue("catjam-webm-position"),
                 n = "Bottom (Player)" === i ? "width: 65px; height: 65px;" : a,
                 o = await async function (e, t = 50, a = 100) {
@@ -277,7 +325,7 @@
                 }("Bottom (Player)" === i ? ".main-nowPlayingBar-right" : '[data-testid="NPV_Panel_OpenDiv"]'), r = document.getElementById("catjam-webm");
             r && r.remove();
             let t = String(f.getFieldValue("catjam-webm-link"));
-            t = t || "https://media.discordapp.net/attachments/1441383421375942676/1456389678298038334/rainbowpls-filter-extrablue-3px.webm?ex=69583015&is=6956de95&hm=eda23126e9703790e65c6179b974ec5dd2a470e483e741c2c2eb35d0227198dd";
+            t = t || "https://media.discordapp.net/attachments/1441383421375942676/1456389646907871362/rainbowpls-filter-3px.webm?ex=6958300e&is=6956de8e&hm=04f9b35d434cab152410be9a259ea3916b0685dc63809b1ccbc488813fedbb92";
             var s = document.createElement("video");
             s.setAttribute("loop", "true");
             s.setAttribute("autoplay", "true");
@@ -299,7 +347,7 @@
 
                 const updateVideoSize = () => {
                     const width = container.clientWidth || 200; // fallback width
-                    video.style.width = Math.min(width * 0.75, 200) + "px";
+                    video.style.width = Math.min(width * 0.5, 200) + "px";
                     video.style.height = "auto";
                 };
 
