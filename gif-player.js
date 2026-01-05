@@ -13,6 +13,11 @@ const catJamPresets = [
         label: "rainbowpls-extrablue",
         url: "https://github.com/0xandrewdu/spicetify-settings/raw/refs/heads/main/img/rainbowpls-filter-extrablue-3px.webm",
         bpm: 200
+    },
+    {
+        label: "rainbowpls-sandevistan",
+        url: "https://github.com/0xandrewdu/spicetify-settings/raw/refs/heads/main/img/rainbowpls-filter-3px-sandevistan.webm",
+        bpm: 200
     }
 ];
 
